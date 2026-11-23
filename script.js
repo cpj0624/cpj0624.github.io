@@ -191,8 +191,9 @@
     });
   }
 
-  // 7. 捲動狀態：導覽列細線 ＋ 區塊高亮
+  // 7. 捲動狀態：頂部閱讀進度條 ＋ 導覽列細線 ＋ 區塊高亮
   const siteHeader = document.getElementById('site-header');
+  const scrollProgressBar = document.getElementById('scroll-progress-bar');
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
   const observedSections = navLinks
     .map((link) => {
@@ -201,16 +202,28 @@
     })
     .filter(Boolean);
 
+  let scrollTicking = false;
+
   function updateScrollState() {
-    if (siteHeader) {
-      siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
+    scrollTicking = false;
+
+    const scrollTop = window.scrollY;
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (scrollProgressBar) {
+      const progress = scrollableHeight > 0 ? Math.min(1, Math.max(0, scrollTop / scrollableHeight)) : 0;
+      scrollProgressBar.style.transform = `scaleX(${progress})`;
     }
 
-    const scrollMarker = window.scrollY + 140;
+    if (siteHeader) {
+      siteHeader.classList.toggle('is-scrolled', scrollTop > 12);
+    }
+
+    const scrollMarker = scrollTop + 140;
     let activeId = '';
 
     // 接近頁面底部時高亮最後一個區塊
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 24) {
+    if (window.innerHeight + scrollTop >= document.documentElement.scrollHeight - 24) {
       activeId = observedSections[observedSections.length - 1]?.id || '';
     } else {
       for (const sec of observedSections) {
@@ -226,7 +239,15 @@
     });
   }
 
-  window.addEventListener('scroll', updateScrollState, { passive: true });
+  function scheduleScrollUpdate() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      window.requestAnimationFrame(updateScrollState);
+    }
+  }
+
+  window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
+  window.addEventListener('resize', scheduleScrollUpdate, { passive: true });
   updateScrollState();
 
   // 8. 進場微動效（IntersectionObserver）
