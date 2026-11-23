@@ -16,6 +16,7 @@
 - `index.html`：頁面內容、SEO 與社群分享中繼標籤、向量 QR Code 彈窗
 - `styles.css`：現代極簡版面與響應式設計樣式系統
 - `script.js`：信箱一鍵複製、名片碼彈窗、原生分享與捲動狀態互動
+- `assets/avatar.jpg`：個人頭像照片（1024×1024）
 - `favicon.svg`：網站分頁幾何縮寫圖示
 - `og-image.png`：社群連結預覽圖（1200×630）
 
@@ -24,12 +25,5 @@
 ### 1. 修改個人文字或新增連結
 直接編輯 `gh-pages` 分支中的 `index.html` 對應區塊文字，儲存提交後 GitHub Pages 會自動更新上線。
 
-### 2. 日後更換為個人形象照
-1. 將個人照片（建議正方形 `800×800 px` 以上）存成 `assets/avatar.jpg`。
-2. 在 `index.html` 中找到 `<div class="monogram-frame" ...>`，將內部替換為：
-
-```html
-<div class="monogram-frame">
-  <img class="avatar-photo" src="assets/avatar.jpg" alt="陳品均個人形象照">
-</div>
-```
+### 2. 日後更換其他個人頭像照
+直接將新的正方形照片命名為 `avatar.jpg` 並覆蓋 `assets/avatar.jpg`，推送後網頁頭像即會更新。
