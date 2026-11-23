@@ -119,15 +119,25 @@ button {
   top: 12px;
 }
 
-/* 頂部建築感雙段細線 */
-.top-accent-bar {
+/* 頂部頁面捲動進度條 */
+.scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
   z-index: 120;
-  background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent-solid) 28%, var(--border-subtle) 28%, var(--border-subtle) 100%);
+  background-color: var(--border-subtle);
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent-solid);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 /* 版面容器 */
@@ -1218,7 +1228,7 @@ button {
     --accent: #1956ce;
   }
 
-  .top-accent-bar,
+  .scroll-progress,
   .site-header,
   .hero-actions,
   .inline-copy-btn,
