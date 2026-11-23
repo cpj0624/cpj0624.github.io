@@ -441,13 +441,13 @@ button {
 
 .monogram-frame {
   position: relative;
-  width: 136px;
-  height: 136px;
+  width: 152px;
+  height: 152px;
   border-radius: var(--radius-lg);
   background: linear-gradient(145deg, hsl(220, 23%, 14%) 0%, hsl(220, 26%, 9%) 100%);
   border: 1px solid var(--border-default);
   box-shadow:
-    inset 0 1px 0 hsla(210, 40%, 96%, 0.08),
+    inset 0 1px 0 hsla(210, 40%, 96%, 0.1),
     0 18px 36px -14px hsla(220, 50%, 2%, 0.72);
   display: flex;
   flex-direction: column;
@@ -460,9 +460,10 @@ button {
 .monogram-frame::before {
   content: "";
   position: absolute;
-  inset: 9px;
-  border-radius: 10px;
-  border: 1px solid hsla(210, 40%, 96%, 0.06);
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px hsla(210, 40%, 96%, 0.12);
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -491,15 +492,17 @@ button {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: 3.5px;
+  z-index: 3;
   background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent-solid) 42%, transparent 42%);
 }
 
-/* 若日後放置個人形象照，只需在 .monogram-frame 內放入 <img class="avatar-photo"> */
+/* 個人頭像照片 */
 .avatar-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 22%;
   display: block;
 }
 
@@ -1112,14 +1115,9 @@ button {
   }
 
   .monogram-frame {
-    width: 88px;
-    height: 88px;
+    width: 108px;
+    height: 108px;
     border-radius: 14px;
-  }
-
-  .monogram-frame::before {
-    inset: 6px;
-    border-radius: 9px;
   }
 
   .monogram-letters {
