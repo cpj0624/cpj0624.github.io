@@ -1,0 +1,1235 @@
+/* ==========================================================================
+   陳品均 — 個人數位名片
+   設計方向：現代極簡專業深色風（黑・灰・白・藍）
+   ========================================================================== */
+
+:root {
+  /* 深色系建築感色票（嚴格遵循 黑、灰、白、藍，不含紫調） */
+  --bg-page: hsl(220, 26%, 6.5%);
+  --bg-surface: hsl(220, 23%, 10%);
+  --bg-surface-hover: hsl(220, 22%, 13.5%);
+  --bg-elevated: hsl(220, 24%, 11.5%);
+
+  --ink-primary: hsl(210, 25%, 96%);
+  --ink-secondary: hsl(215, 16%, 72%);
+  --ink-muted: hsl(215, 13%, 54%);
+  --ink-inverse: hsl(220, 28%, 8%);
+
+  --border-subtle: hsl(220, 18%, 17%);
+  --border-default: hsl(220, 17%, 24%);
+  --border-strong: hsl(220, 15%, 36%);
+
+  --accent: hsl(212, 92%, 62%);
+  --accent-hover: hsl(212, 95%, 69%);
+  --accent-solid: hsl(214, 82%, 52%);
+  --accent-tint: hsla(212, 92%, 62%, 0.12);
+  --accent-tint-strong: hsla(212, 92%, 62%, 0.24);
+
+  /* 字體系統（純繁體中文優先，搭配俐落幾何拉丁與等寬字） */
+  --font-sans: 'Plus Jakarta Sans', 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* 尺度與間距 */
+  --container-max: 880px;
+  --container-pad: clamp(20px, 5vw, 40px);
+  --nav-height: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* 陰影與立體層次 */
+  --shadow-sm: 0 1px 2px hsla(220, 40%, 2%, 0.4);
+  --shadow-md: 0 10px 28px -6px hsla(220, 45%, 2%, 0.6), 0 2px 8px hsla(220, 40%, 2%, 0.35);
+  --shadow-lg: 0 28px 64px -12px hsla(220, 50%, 2%, 0.78), 0 6px 18px hsla(220, 45%, 2%, 0.45);
+
+  /* 動態節奏 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+}
+
+/* 基礎重置 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 24px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+::selection {
+  background-color: var(--accent-tint-strong);
+  color: var(--ink-primary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* 無障礙跳轉連結 */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--ink-primary);
+  color: var(--ink-inverse);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+/* 頂部建築感雙段細線 */
+.top-accent-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 120;
+  background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent-solid) 28%, var(--border-subtle) 28%, var(--border-subtle) 100%);
+}
+
+/* 版面容器 */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ==========================================================================
+   導覽列
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 3px;
+  z-index: 100;
+  height: var(--nav-height);
+  background-color: hsla(220, 26%, 6.5%, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-base) ease, background-color var(--duration-base) ease;
+}
+
+.site-header.is-scrolled {
+  background-color: hsla(220, 26%, 6.5%, 0.92);
+  border-bottom-color: var(--border-subtle);
+}
+
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--ink-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background-color: var(--accent-solid);
+}
+
+.brand-link:hover .brand-mark {
+  background-color: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: #ffffff;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  position: relative;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--ink-primary);
+  background-color: var(--bg-surface);
+}
+
+.nav-link.is-active {
+  color: var(--accent);
+}
+
+.nav-qr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.nav-qr-btn:hover {
+  border-color: var(--border-strong);
+  background-color: var(--bg-surface-hover);
+  color: var(--accent);
+}
+
+.nav-qr-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Hero 主視覺區塊
+   ========================================================================== */
+.hero {
+  padding-top: clamp(44px, 7vw, 84px);
+  padding-bottom: clamp(44px, 6vw, 68px);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(28px, 5vw, 56px);
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+.hero-meta-sep {
+  color: var(--border-strong);
+  user-select: none;
+}
+
+.hero-meta-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink-secondary);
+}
+
+.hero-meta-location svg {
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+}
+
+.hero-name {
+  margin: 0;
+  font-size: clamp(2.35rem, 5.2vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.05em;
+  color: var(--ink-primary);
+}
+
+.hero-role {
+  margin: 14px 0 0;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-weight: 500;
+  color: var(--ink-secondary);
+  letter-spacing: 0.02em;
+}
+
+.hero-role-sep {
+  margin-inline: 8px;
+  color: var(--border-strong);
+}
+
+.hero-tagline {
+  margin: 22px 0 0;
+  padding-left: 14px;
+  border-left: 2.5px solid var(--accent-solid);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-primary);
+  letter-spacing: 0.03em;
+}
+
+.hero-actions {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 按鈕系統 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding-inline: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--ink-primary);
+  color: var(--ink-inverse);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-solid);
+  color: #ffffff;
+  box-shadow: 0 8px 22px -8px hsla(214, 82%, 52%, 0.55);
+}
+
+.btn-primary.is-copied {
+  background-color: var(--accent-solid);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--ink-primary);
+  border-color: var(--border-default);
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-strong);
+  background-color: var(--bg-surface-hover);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--ink-secondary);
+  padding-inline: 14px;
+}
+
+.btn-ghost:hover {
+  color: var(--accent);
+  background-color: var(--accent-tint);
+}
+
+/* 幾何文字縮寫徽章（無個人照片時使用，亦支援日後一鍵替換為形象照） */
+.hero-visual {
+  flex-shrink: 0;
+}
+
+.monogram-frame {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, hsl(220, 23%, 14%) 0%, hsl(220, 26%, 9%) 100%);
+  border: 1px solid var(--border-default);
+  box-shadow:
+    inset 0 1px 0 hsla(210, 40%, 96%, 0.08),
+    0 18px 36px -14px hsla(220, 50%, 2%, 0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.monogram-frame::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 10px;
+  border: 1px solid hsla(210, 40%, 96%, 0.06);
+  pointer-events: none;
+}
+
+.monogram-letters {
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding-left: 0.14em;
+  color: var(--ink-primary);
+  line-height: 1;
+}
+
+.monogram-sub {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  padding-left: 0.18em;
+  color: var(--ink-muted);
+}
+
+.monogram-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent-solid) 42%, transparent 42%);
+}
+
+/* 若日後放置個人形象照，只需在 .monogram-frame 內放入 <img class="avatar-photo"> */
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   標準瑞士編輯風雙欄區塊
+   ========================================================================== */
+.section {
+  border-top: 1px solid var(--border-subtle);
+  padding-block: clamp(40px, 6vw, 60px);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: 172px minmax(0, 1fr);
+  gap: 24px 36px;
+  align-items: start;
+}
+
+.section-aside {
+  position: sticky;
+  top: calc(var(--nav-height) + 28px);
+}
+
+.section-index {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+}
+
+/* ==========================================================================
+   01 / 關於我
+   ========================================================================== */
+.about-lead {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--ink-primary);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+.facts-strip {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04);
+  overflow: hidden;
+}
+
+.fact-item {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fact-item + .fact-item {
+  border-left: 1px solid var(--border-subtle);
+}
+
+.fact-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+}
+
+.fact-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+/* ==========================================================================
+   02 / 經歷與學歷
+   ========================================================================== */
+.record-group + .record-group {
+  margin-top: 36px;
+}
+
+.record-group-title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+.record-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.record-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 16px 24px;
+  align-items: baseline;
+  padding: 18px 12px;
+  margin-inline: -12px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.record-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 2.5px;
+  border-radius: 2px;
+  background-color: var(--accent);
+  opacity: 0;
+  transform: scaleY(0.5);
+  transition: opacity var(--duration-fast) ease, transform var(--duration-base) var(--ease-out);
+}
+
+.record-item:hover {
+  background-color: var(--bg-surface);
+}
+
+.record-item:hover::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.record-term {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.record-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.record-role {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink-primary);
+}
+
+.record-org {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
+   03 / 聯絡與連結（數位名片核心導覽清單）
+   ========================================================================== */
+.contact-intro {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: var(--ink-secondary);
+}
+
+.link-directory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.link-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.link-anchor {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 12px;
+  margin-left: -12px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast) ease, padding-left var(--duration-base) var(--ease-out);
+}
+
+.link-row:not(.link-row-with-action) .link-anchor {
+  margin-right: -12px;
+}
+
+.link-anchor:hover {
+  background-color: var(--bg-surface);
+  padding-left: 18px;
+}
+
+.link-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.link-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.link-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.link-anchor:hover .link-icon {
+  background-color: var(--accent-tint);
+  border-color: var(--border-default);
+  color: var(--accent);
+}
+
+.link-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.link-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  line-height: 1.35;
+}
+
+.link-handle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out), color var(--duration-fast) ease;
+}
+
+.link-anchor:hover .link-arrow {
+  color: var(--accent);
+  transform: translate(3px, -3px);
+}
+
+/* 信箱列專屬的一鍵複製鈕 */
+.inline-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding-inline: 12px;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.inline-copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.inline-copy-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--accent);
+  background-color: var(--bg-surface-hover);
+}
+
+.inline-copy-btn.is-copied {
+  border-color: var(--accent-solid);
+  background-color: var(--accent-solid);
+  color: #ffffff;
+}
+
+/* 名片工具條 */
+.card-tools {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.card-tools-label {
+  font-size: 13px;
+  color: var(--ink-secondary);
+}
+
+.card-tools-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding-inline: 13px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-primary);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.tool-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.tool-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--accent);
+  background-color: var(--bg-surface-hover);
+}
+
+/* ==========================================================================
+   頁尾
+   ========================================================================== */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-block: 32px 44px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.footer-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  transition: color var(--duration-fast) ease;
+}
+
+.footer-top-link:hover {
+  color: var(--accent);
+}
+
+.footer-top-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==========================================================================
+   名片 QR Code 彈窗（QR 條碼維持純白高對比底板以確保任何手機皆能秒速掃描）
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: hsla(220, 40%, 3%, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--duration-base) ease, visibility var(--duration-base) ease;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-dialog {
+  width: 100%;
+  max-width: 356px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.06), var(--shadow-lg);
+  padding: 24px;
+  transform: translateY(10px) scale(0.98);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.modal-backdrop.is-open .modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.modal-close:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--ink-primary);
+}
+
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.qr-box {
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-svg {
+  width: 216px;
+  height: 216px;
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.qr-caption-name {
+  margin: 14px 0 2px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.qr-caption-url {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.modal-actions {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.modal-actions .btn {
+  height: 40px;
+  padding-inline: 12px;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   浮動提示 Toast（深色介面採高對比純白浮動膠囊）
+   ========================================================================== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 250;
+  transform: translate(-50%, 16px);
+  padding: 10px 18px;
+  background-color: var(--ink-primary);
+  color: var(--ink-inverse);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) ease, transform var(--duration-base) var(--ease-out);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ==========================================================================
+   進場漸顯動效（僅在 JS 啟用時生效）
+   ========================================================================== */
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
+}
+
+.js-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   響應式設計
+   ========================================================================== */
+@media (max-width: 720px) {
+  .site-header {
+    height: 60px;
+  }
+
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  .nav-qr-btn {
+    margin-left: 4px;
+    padding: 6px 9px;
+  }
+
+  .nav-qr-text {
+    display: none;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .hero-visual {
+    order: -1;
+  }
+
+  .monogram-frame {
+    width: 88px;
+    height: 88px;
+    border-radius: 14px;
+  }
+
+  .monogram-frame::before {
+    inset: 6px;
+    border-radius: 9px;
+  }
+
+  .monogram-letters {
+    font-size: 22px;
+  }
+
+  .monogram-sub {
+    margin-top: 5px;
+    font-size: 9px;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-aside {
+    position: static;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .section-index {
+    margin-bottom: 0;
+  }
+
+  .facts-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .fact-item + .fact-item {
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .record-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding-block: 16px;
+  }
+
+  .link-row-with-action {
+    flex-wrap: nowrap;
+  }
+
+  .card-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-tools-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tool-btn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-name {
+    display: none;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+}
+
+/* 尊重系統減少動態偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js-ready .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 列印友善樣式（列印時自動切換白底黑字節省墨水） */
+@media print {
+  :root {
+    --bg-page: #ffffff;
+    --bg-surface: #f8fafc;
+    --ink-primary: #111827;
+    --ink-secondary: #374151;
+    --ink-muted: #6b7280;
+    --border-subtle: #e5e7eb;
+    --accent: #1956ce;
+  }
+
+  .top-accent-bar,
+  .site-header,
+  .hero-actions,
+  .inline-copy-btn,
+  .card-tools,
+  .modal-backdrop,
+  .toast,
+  .footer-top-link {
+    display: none !important;
+  }
+
+  .section {
+    break-inside: avoid;
+  }
+}
