@@ -2,7 +2,7 @@
 
 > **線上網址**：https://cpj0624.github.io/
 
-輕量單頁式個人數位名片網頁，採用現代極簡專業風格（藍、灰、白、黑配色），純靜態 HTML / CSS / JavaScript 建置，部署於 GitHub Pages。
+輕量單頁式個人數位名片網頁，採用現代極簡深色專業風格（黑、灰、白、藍配色），純靜態 HTML / CSS / JavaScript 建置，部署於 GitHub Pages。
 
 ## 頁面架構
 
