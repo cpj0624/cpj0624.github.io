@@ -22,7 +22,7 @@
 ## 日後自行修改指南
 
 ### 1. 修改個人文字或新增連結
-直接編輯 `index.html` 中對應區塊的文字，推送至 `main` 分支後 GitHub Pages 會自動更新。
+直接編輯 `gh-pages` 分支中的 `index.html` 對應區塊文字，儲存提交後 GitHub Pages 會自動更新上線。
 
 ### 2. 日後更換為個人形象照
 1. 將個人照片（建議正方形 `800×800 px` 以上）存成 `assets/avatar.jpg`。
