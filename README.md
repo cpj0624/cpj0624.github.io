@@ -19,7 +19,7 @@
 - `data/experiences.json`：幹部經歷、競賽活動與學歷純資料檔（新增經歷只需編輯此檔）
 - `js/main.js`、`js/timeline.js`、`js/ui.js`、`js/utils.js`：ES Module 互動與時間軸渲染模組（含 HTML 跳脫防 XSS）
 - `assets/avatar.jpg`：個人頭像照片（1024×1024）
-- `favicon.svg`：網站分頁幾何縮寫圖示
+- `favicon.ico`、`favicon.png`、`assets/favicon-32x32.png`、`assets/apple-touch-icon.png`、`assets/logo-cpj.png`：網站分頁小圖（Favicon）、手機桌面圖示與導覽列品牌標誌
 - `og-image.png`：社群連結預覽圖（1200×630）
 
 ## 日後自行修改指南
