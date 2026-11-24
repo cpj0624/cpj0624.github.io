@@ -195,38 +195,24 @@ img {
 }
 
 .brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
   background-color: var(--bg-surface);
+  background-image: url('assets/logo-cpj.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 1px solid var(--border-default);
-  color: var(--ink-primary);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  position: relative;
-  overflow: hidden;
-  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
-}
-
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2.5px;
-  background-color: var(--accent-solid);
+  flex-shrink: 0;
+  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) ease;
 }
 
 .brand-link:hover .brand-mark {
-  background-color: var(--accent-solid);
-  border-color: var(--accent-solid);
-  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -4px hsla(212, 92%, 62%, 0.45);
 }
 
 .site-nav {
