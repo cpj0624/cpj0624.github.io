@@ -69,7 +69,7 @@ export async function initTimeline() {
   if (!container) return;
 
   try {
-    const res = await fetch('data/experiences.json', { cache: 'no-store' });
+    const res = await fetch(`data/experiences.json?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const groups = Array.isArray(data.groups) ? data.groups : [];
