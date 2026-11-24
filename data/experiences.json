@@ -1,0 +1,70 @@
+{
+  "groups": [
+    {
+      "id": "leadership",
+      "label": "學生自治與科會經歷",
+      "items": [
+        {
+          "term": "第七屆",
+          "title": "國立臺中科技大學",
+          "subtitle": "資訊工程科學會",
+          "role": "攝影長"
+        },
+        {
+          "term": "第八屆",
+          "title": "國立臺中科技大學",
+          "subtitle": "資訊工程科學會",
+          "role": "會長"
+        },
+        {
+          "term": "第 23 屆",
+          "title": "國立臺中科技大學",
+          "subtitle": "學生會",
+          "role": "學生服務部 次長"
+        }
+      ]
+    },
+    {
+      "id": "activities",
+      "label": "競賽與活動經驗",
+      "items": [
+        {
+          "term": "2025 年",
+          "title": "FineBI × 台灣數據力大賞",
+          "subtitle": "數據分析競賽",
+          "role": "第五名"
+        },
+        {
+          "term": "2026 年",
+          "title": "SITCON 學生計算機年會",
+          "subtitle": "台灣學生資訊社群年會",
+          "role": "邀請票會眾"
+        },
+        {
+          "term": "2026 年",
+          "title": "TASA 台灣盃火箭競賽",
+          "subtitle": "國家太空中心大專競賽",
+          "role": "優勝"
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "label": "學歷背景",
+      "items": [
+        {
+          "term": "五專部",
+          "title": "國立臺中科技大學",
+          "subtitle": "資訊工程科",
+          "role": "就讀中"
+        }
+      ]
+    }
+  ],
+  "cta": {
+    "title": "歡迎找我交流",
+    "subtitle": "活動、攝影、羽球或咖啡廳都能聊",
+    "action": "前往聯絡 ↓",
+    "href": "#contact"
+  }
+}

@@ -1,10 +1,10 @@
 /* ==========================================================================
    陳品均 — 個人數位名片
-   設計方向：現代極簡專業深色風（黑・灰・白・藍）
+   設計方向：深炭黑 × 鋼藍現代極簡風（整合置中 Hero、卡片標籤、圓點時間軸、圓形社群列）
    ========================================================================== */
 
 :root {
-  /* 深色系建築感色票（嚴格遵循 黑、灰、白、藍，不含紫調） */
+  /* 深色系色票（嚴格遵循 黑、灰、白、藍，不含紫調） */
   --bg-page: hsl(220, 26%, 6.5%);
   --bg-surface: hsl(220, 23%, 10%);
   --bg-surface-hover: hsl(220, 22%, 13.5%);
@@ -25,27 +25,27 @@
   --accent-tint: hsla(212, 92%, 62%, 0.12);
   --accent-tint-strong: hsla(212, 92%, 62%, 0.24);
 
-  /* 字體系統（純繁體中文優先，搭配俐落幾何拉丁與等寬字） */
+  /* 字體系統（純繁體中文優先） */
   --font-sans: 'Plus Jakarta Sans', 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* 尺度與間距 */
-  --container-max: 880px;
+  --container-max: 920px;
   --container-pad: clamp(20px, 5vw, 40px);
   --nav-height: 64px;
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
 
-  /* 陰影與立體層次 */
+  /* 陰影與層次 */
   --shadow-sm: 0 1px 2px hsla(220, 40%, 2%, 0.4);
-  --shadow-md: 0 10px 28px -6px hsla(220, 45%, 2%, 0.6), 0 2px 8px hsla(220, 40%, 2%, 0.35);
+  --shadow-md: 0 12px 30px -8px hsla(220, 45%, 2%, 0.62), 0 2px 8px hsla(220, 40%, 2%, 0.35);
   --shadow-lg: 0 28px 64px -12px hsla(220, 50%, 2%, 0.78), 0 6px 18px hsla(220, 45%, 2%, 0.45);
 
   /* 動態節奏 */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
-  --duration-base: 240ms;
+  --duration-base: 260ms;
 }
 
 /* 基礎重置 */
@@ -94,6 +94,12 @@ button {
   cursor: pointer;
 }
 
+img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -119,7 +125,7 @@ button {
   top: 12px;
 }
 
-/* 頂部頁面捲動進度條 */
+/* 頂部即時頁面捲動進度條 */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -156,7 +162,7 @@ button {
   top: 3px;
   z-index: 100;
   height: var(--nav-height);
-  background-color: hsla(220, 26%, 6.5%, 0.82);
+  background-color: hsla(220, 26%, 6.5%, 0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
@@ -230,7 +236,6 @@ button {
 }
 
 .nav-link {
-  position: relative;
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 500;
@@ -278,26 +283,69 @@ button {
 }
 
 /* ==========================================================================
-   Hero 主視覺區塊
+   Hero 置中主視覺（含頂部柔和藍光暈 ＋ 姓名打字機動效）
    ========================================================================== */
 .hero {
-  padding-top: clamp(44px, 7vw, 84px);
-  padding-bottom: clamp(44px, 6vw, 68px);
+  position: relative;
+  text-align: center;
+  padding-top: clamp(52px, 8vw, 96px);
+  padding-bottom: clamp(48px, 7vw, 76px);
+  background: radial-gradient(ellipse 68% 58% at 50% 0%, hsla(214, 82%, 52%, 0.14), transparent 72%);
 }
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+.hero-inner {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(28px, 5vw, 56px);
+}
+
+.avatar-frame {
+  position: relative;
+  width: 156px;
+  height: 156px;
+  margin-bottom: 24px;
+  border-radius: 26px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  box-shadow:
+    inset 0 1px 0 hsla(210, 40%, 96%, 0.1),
+    0 20px 44px -16px hsla(220, 50%, 2%, 0.78);
+  overflow: hidden;
+}
+
+.avatar-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px hsla(210, 40%, 96%, 0.12);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.avatar-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.5px;
+  z-index: 3;
+  background: linear-gradient(90deg, transparent 28%, var(--accent-solid) 28%, var(--accent-solid) 72%, transparent 72%);
 }
 
 .hero-meta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -312,7 +360,7 @@ button {
 .hero-meta-location {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   color: var(--ink-secondary);
 }
 
@@ -324,16 +372,42 @@ button {
 
 .hero-name {
   margin: 0;
-  font-size: clamp(2.35rem, 5.2vw, 3.25rem);
+  min-height: 1.25em;
+  font-size: clamp(2.15rem, 5vw, 3.15rem);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0.05em;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
   color: var(--ink-primary);
+}
+
+.hero-greeting {
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.typing {
+  color: var(--accent);
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2.5px;
+  height: 0.9em;
+  margin-left: 4px;
+  vertical-align: -0.1em;
+  background-color: var(--accent);
+  border-radius: 2px;
+  animation: caretBlink 1.05s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .hero-role {
   margin: 14px 0 0;
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(0.98rem, 2vw, 1.1rem);
   font-weight: 500;
   color: var(--ink-secondary);
   letter-spacing: 0.02em;
@@ -345,21 +419,19 @@ button {
 }
 
 .hero-tagline {
-  margin: 22px 0 0;
-  padding-left: 14px;
-  border-left: 2.5px solid var(--accent-solid);
-  font-size: 17px;
+  margin: 12px 0 0;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.5;
-  color: var(--ink-primary);
-  letter-spacing: 0.03em;
+  color: var(--ink-muted);
+  letter-spacing: 0.06em;
 }
 
 .hero-actions {
-  margin-top: 32px;
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
@@ -370,11 +442,11 @@ button {
   justify-content: center;
   gap: 8px;
   height: 44px;
-  padding-inline: 20px;
+  padding-inline: 22px;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   border: 1px solid transparent;
   transition:
     background-color var(--duration-fast) var(--ease-out),
@@ -404,7 +476,8 @@ button {
 .btn-primary:hover {
   background-color: var(--accent-solid);
   color: #ffffff;
-  box-shadow: 0 8px 22px -8px hsla(214, 82%, 52%, 0.55);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px -6px hsla(214, 82%, 52%, 0.5);
 }
 
 .btn-primary.is-copied {
@@ -421,12 +494,13 @@ button {
 .btn-secondary:hover {
   border-color: var(--border-strong);
   background-color: var(--bg-surface-hover);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
   background-color: transparent;
   color: var(--ink-secondary);
-  padding-inline: 14px;
+  padding-inline: 16px;
 }
 
 .btn-ghost:hover {
@@ -434,376 +508,406 @@ button {
   background-color: var(--accent-tint);
 }
 
-/* 幾何文字縮寫徽章（無個人照片時使用，亦支援日後一鍵替換為形象照） */
-.hero-visual {
-  flex-shrink: 0;
-}
-
-.monogram-frame {
-  position: relative;
-  width: 152px;
-  height: 152px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(145deg, hsl(220, 23%, 14%) 0%, hsl(220, 26%, 9%) 100%);
-  border: 1px solid var(--border-default);
-  box-shadow:
-    inset 0 1px 0 hsla(210, 40%, 96%, 0.1),
-    0 18px 36px -14px hsla(220, 50%, 2%, 0.72);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none;
-}
-
-.monogram-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px hsla(210, 40%, 96%, 0.12);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.monogram-letters {
-  font-family: var(--font-sans);
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  padding-left: 0.14em;
-  color: var(--ink-primary);
-  line-height: 1;
-}
-
-.monogram-sub {
-  margin-top: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  padding-left: 0.18em;
-  color: var(--ink-muted);
-}
-
-.monogram-accent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3.5px;
-  z-index: 3;
-  background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent-solid) 42%, transparent 42%);
-}
-
-/* 個人頭像照片 */
-.avatar-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 22%;
-  display: block;
-}
-
 /* ==========================================================================
-   標準瑞士編輯風雙欄區塊
+   區塊通用標題（左側 4px 鋼藍強調條 ＋ 右側計數）
    ========================================================================== */
 .section {
-  border-top: 1px solid var(--border-subtle);
-  padding-block: clamp(40px, 6vw, 60px);
+  padding-block: clamp(32px, 5vw, 48px);
 }
 
-.section-grid {
-  display: grid;
-  grid-template-columns: 172px minmax(0, 1fr);
-  gap: 24px 36px;
-  align-items: start;
-}
-
-.section-aside {
-  position: sticky;
-  top: calc(var(--nav-height) + 28px);
-}
-
-.section-index {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-bottom: 6px;
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .section-title {
   margin: 0;
-  font-size: 17px;
+  padding-left: 14px;
+  border-left: 4px solid var(--accent-solid);
+  font-size: clamp(1.3rem, 2.5vw, 1.55rem);
   font-weight: 700;
+  line-height: 1.3;
   letter-spacing: 0.04em;
   color: var(--ink-primary);
 }
 
-/* ==========================================================================
-   01 / 關於我
-   ========================================================================== */
-.about-lead {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.85;
-  color: var(--ink-primary);
-  font-weight: 400;
-  text-wrap: pretty;
-}
-
-.facts-strip {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-surface);
-  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04);
-  overflow: hidden;
-}
-
-.fact-item {
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.fact-item + .fact-item {
-  border-left: 1px solid var(--border-subtle);
-}
-
-.fact-label {
-  font-size: 12px;
+.section-count {
+  font-family: var(--font-mono);
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.06em;
   color: var(--ink-muted);
-}
-
-.fact-value {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink-primary);
-}
-
-/* ==========================================================================
-   02 / 經歷與學歷
-   ========================================================================== */
-.record-group + .record-group {
-  margin-top: 36px;
-}
-
-.record-group-title {
-  margin: 0 0 14px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ink-muted);
-}
-
-.record-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.record-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 16px 24px;
-  align-items: baseline;
-  padding: 18px 12px;
-  margin-inline: -12px;
-  border-bottom: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  transition: background-color var(--duration-fast) ease;
-}
-
-.record-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 2.5px;
-  border-radius: 2px;
-  background-color: var(--accent);
-  opacity: 0;
-  transform: scaleY(0.5);
-  transition: opacity var(--duration-fast) ease, transform var(--duration-base) var(--ease-out);
-}
-
-.record-item:hover {
-  background-color: var(--bg-surface);
-}
-
-.record-item:hover::before {
-  opacity: 1;
-  transform: scaleY(1);
-}
-
-.record-term {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--accent);
   white-space: nowrap;
 }
 
-.record-body {
+/* ==========================================================================
+   關於我（獨立圓角深色卡片 ＋ 關鍵字膠囊標籤）
+   ========================================================================== */
+.about-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: clamp(26px, 4.5vw, 38px) clamp(22px, 4vw, 36px);
+  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04), var(--shadow-sm);
+  text-align: center;
+  transition: transform var(--duration-base) var(--ease-out), border-color var(--duration-base) ease, background-color var(--duration-base) ease;
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-default);
+  background-color: hsl(220, 23%, 11%);
+}
+
+.about-lead {
+  margin: 0;
+  font-size: clamp(1.06rem, 2.2vw, 1.2rem);
+  line-height: 1.95;
+  font-weight: 500;
+  color: var(--ink-primary);
+  letter-spacing: 0.02em;
+}
+
+.tag-list {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.tag-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--accent);
+  background-color: var(--accent-tint);
+}
+
+/* ==========================================================================
+   經歷與學歷（垂直軌道圓點時間軸 — 由 data/experiences.json 渲染）
+   ========================================================================== */
+.timeline {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  min-width: 0;
 }
 
-.record-role {
+.timeline-group {
+  display: grid;
+  grid-template-columns: 164px minmax(0, 1fr);
+  gap: 12px 24px;
+  align-items: start;
+}
+
+.timeline-group + .timeline-group {
+  margin-top: 32px;
+}
+
+.timeline-group[hidden] {
+  display: none;
+}
+
+.timeline-group-label {
   margin: 0;
-  font-size: 16px;
+  padding-top: 15px;
+  font-size: 14px;
   font-weight: 600;
-  line-height: 1.45;
-  color: var(--ink-primary);
+  letter-spacing: 0.04em;
+  color: var(--accent);
 }
 
-.record-org {
+.timeline-rows {
+  list-style: none;
   margin: 0;
+  padding: 0 0 0 30px;
+  border-left: 1px solid var(--border-default);
+}
+
+.timeline-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) minmax(0, 1.25fr) 120px;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 12px 16px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: padding-left var(--duration-base) var(--ease-out), background-color var(--duration-fast) ease;
+}
+
+.timeline-rows li:first-child .timeline-row {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.timeline-rows li:last-child .timeline-row {
+  border-bottom: 0;
+}
+
+/* 軌道圓點節點 */
+.timeline-row::before {
+  content: "";
+  position: absolute;
+  left: -35.5px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background-color: var(--bg-page);
+  border: 1.5px solid var(--border-strong);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, transform var(--duration-fast) var(--ease-out);
+}
+
+.timeline-row:hover {
+  padding-left: 10px;
+  background-color: hsla(220, 23%, 12%, 0.55);
+  border-radius: 6px;
+}
+
+.timeline-row:hover::before {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.15);
+}
+
+.timeline-term {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.timeline-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  transition: color var(--duration-fast) ease;
+}
+
+.timeline-row:hover .timeline-title {
+  color: var(--accent);
+}
+
+.timeline-sub {
   font-size: 14px;
   color: var(--ink-secondary);
 }
 
-/* ==========================================================================
-   03 / 聯絡與連結（數位名片核心導覽清單）
-   ========================================================================== */
-.contact-intro {
-  margin: 0 0 20px;
-  font-size: 15px;
-  color: var(--ink-secondary);
+.timeline-role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  text-align: right;
+  white-space: nowrap;
 }
 
-.link-directory {
-  list-style: none;
+/* 結尾交流入口列 */
+.timeline-group--cta {
+  margin-top: 20px !important;
+}
+
+.timeline-row--cta .timeline-term {
+  color: var(--accent);
+}
+
+.timeline-row--cta .timeline-title,
+.timeline-row--cta .timeline-role {
+  color: var(--accent);
+}
+
+.timeline-row--cta::before {
+  background-color: var(--accent-solid);
+  border-color: var(--accent-solid);
+}
+
+.timeline-fallback {
   margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--border-subtle);
+  padding: 20px;
+  text-align: center;
+  color: var(--ink-muted);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
 }
 
-.link-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.link-anchor {
-  flex: 1;
-  min-width: 0;
+/* 未來資料擴充時使用的收合按鈕 */
+.section-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 12px;
-  margin-left: -12px;
-  border-radius: var(--radius-sm);
-  transition: background-color var(--duration-fast) ease, padding-left var(--duration-base) var(--ease-out);
-}
-
-.link-row:not(.link-row-with-action) .link-anchor {
-  margin-right: -12px;
-}
-
-.link-anchor:hover {
-  background-color: var(--bg-surface);
-  padding-left: 18px;
-}
-
-.link-main {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  min-width: 0;
-}
-
-.link-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px 22px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--ink-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.section-toggle[hidden] {
+  display: none;
+}
+
+.section-toggle:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--border-default);
+  color: var(--ink-primary);
+}
+
+.section-toggle-action {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   聯絡與連結（圓形社群圖示列 ＋ 信箱快速複製條）
+   ========================================================================== */
+.contact-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 4vw, 34px) clamp(20px, 4vw, 32px);
+  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04);
+}
+
+.contact-intro {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-secondary);
+}
+
+.socials-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 24px;
+}
+
+.social-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  min-width: 78px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--ink-secondary);
+  transition: color var(--duration-fast) ease;
+}
+
+.social-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-default);
   color: var(--ink-primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    box-shadow var(--duration-base) ease;
 }
 
-.link-icon svg {
-  width: 18px;
-  height: 18px;
+.social-circle svg {
+  width: 24px;
+  height: 24px;
 }
 
-.link-anchor:hover .link-icon {
-  background-color: var(--accent-tint);
-  border-color: var(--border-default);
+.social-item:hover {
+  color: var(--ink-primary);
+}
+
+.social-item:hover .social-circle {
+  transform: translateY(-5px);
+  background-color: var(--bg-surface-hover);
+  border-color: var(--border-strong);
   color: var(--accent);
+  box-shadow: 0 10px 24px -10px hsla(212, 92%, 62%, 0.45);
 }
 
-.link-text {
+.social-label {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 信箱直接檢視與一鍵複製條 */
+.email-strip {
+  margin-top: 26px;
+  padding: 14px 18px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.email-strip-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
 }
 
-.link-title {
-  font-size: 15px;
+.email-strip-badge {
+  font-size: 12px;
   font-weight: 600;
-  color: var(--ink-primary);
-  line-height: 1.35;
+  color: var(--ink-muted);
+  white-space: nowrap;
 }
 
-.link-handle {
+.email-strip-address {
   font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--ink-muted);
+  font-size: 14px;
+  color: var(--ink-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.link-arrow {
-  width: 18px;
-  height: 18px;
-  color: var(--ink-muted);
-  flex-shrink: 0;
-  transition: transform var(--duration-base) var(--ease-out), color var(--duration-fast) ease;
-}
-
-.link-anchor:hover .link-arrow {
-  color: var(--accent);
-  transform: translate(3px, -3px);
-}
-
-/* 信箱列專屬的一鍵複製鈕 */
 .inline-copy-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 34px;
-  padding-inline: 12px;
-  margin-left: 8px;
+  height: 36px;
+  padding-inline: 14px;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-secondary);
+  font-weight: 600;
+  color: var(--ink-primary);
   background-color: var(--bg-surface);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   white-space: nowrap;
   flex-shrink: 0;
   transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
@@ -826,65 +930,13 @@ button {
   color: #ffffff;
 }
 
-/* 名片工具條 */
-.card-tools {
-  margin-top: 24px;
-  padding: 16px 18px;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  box-shadow: inset 0 1px 0 hsla(210, 40%, 96%, 0.04);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.card-tools-label {
-  font-size: 13px;
-  color: var(--ink-secondary);
-}
-
-.card-tools-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tool-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding-inline: 13px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-primary);
-  background-color: var(--bg-page);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease, background-color var(--duration-fast) ease;
-}
-
-.tool-btn svg {
-  width: 15px;
-  height: 15px;
-}
-
-.tool-btn:hover {
-  border-color: var(--border-strong);
-  color: var(--accent);
-  background-color: var(--bg-surface-hover);
-}
-
 /* ==========================================================================
    頁尾
    ========================================================================== */
 .site-footer {
+  margin-top: 24px;
   border-top: 1px solid var(--border-subtle);
-  padding-block: 32px 44px;
+  padding-block: 30px 44px;
 }
 
 .footer-inner {
@@ -916,7 +968,7 @@ button {
 }
 
 /* ==========================================================================
-   名片 QR Code 彈窗（QR 條碼維持純白高對比底板以確保任何手機皆能秒速掃描）
+   名片 QR Code 彈窗（QR 維持白底高對比以確保手機秒速掃描）
    ========================================================================== */
 .modal-backdrop {
   position: fixed;
@@ -1043,7 +1095,7 @@ button {
 }
 
 /* ==========================================================================
-   浮動提示 Toast（深色介面採高對比純白浮動膠囊）
+   浮動提示 Toast
    ========================================================================== */
 .toast {
   position: fixed;
@@ -1070,11 +1122,11 @@ button {
 }
 
 /* ==========================================================================
-   進場漸顯動效（僅在 JS 啟用時生效）
+   進場漸顯動效
    ========================================================================== */
 .js-ready .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(16px);
   transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
 }
 
@@ -1084,9 +1136,9 @@ button {
 }
 
 /* ==========================================================================
-   響應式設計
+   響應式設計（平板與手機）
    ========================================================================== */
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .site-header {
     height: 60px;
   }
@@ -1105,86 +1157,88 @@ button {
     display: none;
   }
 
-  .hero-grid {
+  .avatar-frame {
+    width: 122px;
+    height: 122px;
+    border-radius: 22px;
+    margin-bottom: 20px;
+  }
+
+  .timeline-group {
     grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .hero-visual {
-    order: -1;
-  }
-
-  .monogram-frame {
-    width: 108px;
-    height: 108px;
-    border-radius: 14px;
-  }
-
-  .monogram-letters {
-    font-size: 22px;
-  }
-
-  .monogram-sub {
-    margin-top: 5px;
-    font-size: 9px;
-  }
-
-  .section-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .section-aside {
-    position: static;
-    display: flex;
-    align-items: baseline;
     gap: 10px;
   }
 
-  .section-index {
-    margin-bottom: 0;
+  .timeline-group-label {
+    padding-top: 0;
   }
 
-  .facts-strip {
-    grid-template-columns: 1fr;
+  .timeline-group-spacer {
+    display: none;
   }
 
-  .fact-item + .fact-item {
-    border-left: none;
-    border-top: 1px solid var(--border-subtle);
+  .timeline-rows {
+    padding-left: 22px;
   }
 
-  .record-item {
-    grid-template-columns: 1fr;
-    gap: 4px;
-    padding-block: 16px;
+  .timeline-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 12px;
+    padding: 14px 8px 14px 0;
   }
 
-  .link-row-with-action {
-    flex-wrap: nowrap;
+  .timeline-row::before {
+    left: -27.5px;
+    top: 24px;
+    margin-top: 0;
   }
 
-  .card-tools {
+  .timeline-term {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 12px;
+  }
+
+  .timeline-role {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 13px;
+  }
+
+  .timeline-title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 15px;
+  }
+
+  .timeline-sub {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    font-size: 13px;
+  }
+
+  .email-strip {
     flex-direction: column;
     align-items: stretch;
+    text-align: center;
   }
 
-  .card-tools-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .email-strip-info {
+    justify-content: center;
   }
 
-  .tool-btn {
+  .inline-copy-btn {
     justify-content: center;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 440px) {
   .brand-name {
     display: none;
   }
 
   .hero-actions {
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
   }
@@ -1192,12 +1246,24 @@ button {
   .hero-actions .btn {
     width: 100%;
   }
+
+  .socials-grid {
+    gap: 16px 14px;
+  }
+
+  .social-item {
+    min-width: 68px;
+  }
 }
 
 /* 尊重系統減少動態偏好 */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .typing-cursor {
+    animation: none;
   }
 
   *,
@@ -1214,7 +1280,7 @@ button {
   }
 }
 
-/* 列印友善樣式（列印時自動切換白底黑字節省墨水） */
+/* 列印友善樣式 */
 @media print {
   :root {
     --bg-page: #ffffff;
@@ -1223,14 +1289,17 @@ button {
     --ink-secondary: #374151;
     --ink-muted: #6b7280;
     --border-subtle: #e5e7eb;
+    --border-default: #d1d5db;
     --accent: #1956ce;
+    --accent-solid: #1956ce;
   }
 
   .scroll-progress,
   .site-header,
   .hero-actions,
+  .typing-cursor,
   .inline-copy-btn,
-  .card-tools,
+  .timeline-group--cta,
   .modal-backdrop,
   .toast,
   .footer-top-link {
