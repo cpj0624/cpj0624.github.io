@@ -29,6 +29,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   initScrollReveal();
 });
 
+// 頭像框前端防直接另存（僅限頭像區，不影響頁面其他處正常右鍵與選取）
+const avatarFrame = document.getElementById('avatar-frame');
+if (avatarFrame) {
+  const blockAction = (event) => event.preventDefault();
+  avatarFrame.addEventListener('contextmenu', blockAction);
+  avatarFrame.addEventListener('dragstart', blockAction);
+  avatarFrame.addEventListener('selectstart', blockAction);
+}
+
 // 防止圖片誤拖曳
 document.addEventListener('dragstart', (event) => {
   if (event.target && event.target.tagName && event.target.tagName.toLowerCase() === 'img') {
