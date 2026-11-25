@@ -196,23 +196,20 @@ img {
 
 .brand-mark {
   display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
-  background-color: var(--bg-surface);
-  background-image: url('assets/logo-cpj.png');
-  background-size: cover;
+  width: 28px;
+  height: 28px;
+  background-color: transparent;
+  background-image: url('assets/logo-cpj.png?v=3');
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  border: 1px solid var(--border-default);
   flex-shrink: 0;
-  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) ease;
+  transition: transform var(--duration-fast) var(--ease-out), filter var(--duration-fast) ease;
 }
 
 .brand-link:hover .brand-mark {
-  border-color: var(--accent);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px -4px hsla(212, 92%, 62%, 0.45);
+  filter: drop-shadow(0 0 6px hsla(212, 92%, 62%, 0.55));
 }
 
 .site-nav {
